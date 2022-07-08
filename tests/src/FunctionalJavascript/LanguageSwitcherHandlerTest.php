@@ -141,7 +141,6 @@ class LanguageSwitcherHandlerTest extends WebDriverTestBase {
     $this->assertEquals('fr', $cookie_preferred_lang['value']);
     $this->assertEquals(FALSE, $cookie_preferred_lang['secure']);
     $this->assertEquals(FALSE, $cookie_preferred_lang['httpOnly']);
-    $this->assertEquals('drupal', $cookie_preferred_lang['domain']);
   }
 
   /**
