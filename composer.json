@@ -1,0 +1,32 @@
+{
+  "name": "drupal/home_redirect_lang",
+  "description": "Redirect visitors landing on the Homepage to their preferred language, based on previous browsing session. Offering their native content as default.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/home_redirect_lang",
+  "authors": [
+    {
+      "name": "Antistatique",
+      "email": "info@antistatique.net",
+      "homepage": "https://www.antistatique.net",
+      "role": "Sponsor"
+    },
+    {
+      "name": "Kevin Wenger",
+      "email": "contact@kevin-wenger.ch",
+      "homepage": "https://www.drupal.org/u/wengerk",
+      "role": "Author & Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/home_redirect_lang"
+  },
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "drupal/coder": "^8.3.1"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

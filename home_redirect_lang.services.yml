@@ -1,0 +1,9 @@
+services:
+
+  # EventSubscriber
+  home_redirect_lang.event.language_redirection.cookie:
+    class: Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection
+    arguments: ['@request_stack', '@path.matcher', '@language_manager']
+    tags:
+      - { name: event_subscriber }
+

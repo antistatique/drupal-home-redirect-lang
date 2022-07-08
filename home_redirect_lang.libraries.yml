@@ -1,0 +1,12 @@
+common:
+  js:
+    js/home_redirect_lang.common.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.cookie
+
+language_switcher:
+  js:
+    js/home_redirect_lang.language_switcher.js: {}
+  dependencies:
+    - home_redirect_lang/common

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall fn for the Homepage Redirect Language module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function home_redirect_lang_requirements($phase = 'runtime') {
+  $requirements = [];
+
+  if ($phase === 'install') {
+    if (\Drupal::moduleHandler()->moduleExists('page_cache')) {
+      $requirements['home_redirect_lang'] = [
+        'description' => t('Homepage Redirect Language cannot be installed because the Page Cache module (page_cache) is installed and incompatible.'),
+        'severity' => REQUIREMENT_ERROR,
+      ];
+    }
+  }
+
+  return $requirements;
+}

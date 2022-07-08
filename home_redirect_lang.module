@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Provides functionality for handling postal addresses.
+ */
+
+use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\home_redirect_lang\HomeRedirectLangInterface;
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Add both cache context based on cookie and referer for homepage.
+ */
+function home_redirect_lang_preprocess_page(&$variables): void {
+  if (!$variables['is_front']) {
+    return;
+  }
+
+  $variables['#cache']['contexts'][] = 'cookies:' . HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE;
+  $variables['#cache']['contexts'][] = 'headers:REFERER';
+}
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * Inject JavaScript switcher handler of the Homepage Redirect Language module
+ * when the drupal language is rendered in any page.
+ */
+function home_redirect_lang_block_view_alter(array &$build, BlockPluginInterface $block): void {
+  if ($block->getPluginId() !== 'language_block:language_interface') {
+    return;
+  }
+
+  $build['#attached']['library'][] = 'home_redirect_lang/language_switcher';
+}
