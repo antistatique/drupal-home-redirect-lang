@@ -20,16 +20,6 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
-    return [
-      'home_redirect_lang.cookie',
-      'home_redirect_lang.browser_fallback',
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
     $cookie_config = $this->config('home_redirect_lang.cookie');
@@ -86,6 +76,16 @@ class SettingsForm extends ConfigFormBase {
       ->set('enable_referer_bypass', $form_state->getValue('browser_fallback')['enable_referer_bypass'])
       ->set('enable_browser_fallback', $form_state->getValue('browser_fallback')['enable'])
       ->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return [
+      'home_redirect_lang.cookie',
+      'home_redirect_lang.browser_fallback',
+    ];
   }
 
 }

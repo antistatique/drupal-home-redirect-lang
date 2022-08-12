@@ -3,8 +3,8 @@
 namespace Drupal\Tests\home_redirect_lang\Functional\BrowserLanguageHeader;
 
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
-use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
 use Drupal\Tests\home_redirect_lang\Functional\FunctionalTestBase;
+use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
 
 /**
  * Cover the caching strategy of the BrowserHeader Redirection.
@@ -12,8 +12,11 @@ use Drupal\Tests\home_redirect_lang\Functional\FunctionalTestBase;
  * @group home_redirect_lang
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_browser_cache
+ *
+ * @internal
+ * @coversNothing
  */
-class CachingRedirectionFunctionalTest extends FunctionalTestBase {
+final class CachingRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertPageCacheContextsAndTagsTrait;
 
   /**

@@ -15,8 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  * @group home_redirect_lang
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_cookie
+ *
+ * @internal
+ * @coversNothing
  */
-class CookieRefererRedirectionFunctionalTest extends FunctionalTestBase {
+final class CookieRefererRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertRedirectTrait;
 
   /**
@@ -30,21 +33,6 @@ class CookieRefererRedirectionFunctionalTest extends FunctionalTestBase {
 
     $settings = $this->container->get('config.factory')->getEditable('home_redirect_lang.cookie');
     $settings->set('enable_referer_bypass', TRUE)->save();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function initMink() {
-    $session = parent::initMink();
-
-    /** @var \Behat\Mink\Driver\BrowserKitDriver $driver */
-    $driver = $session->getDriver();
-    // Since we are testing low-level redirect stuff, the HTTP client should
-    // NOT automatically follow redirects sent by the server.
-    $driver->getClient()->followRedirects(FALSE);
-
-    return $session;
   }
 
   /**
@@ -103,13 +91,31 @@ class CookieRefererRedirectionFunctionalTest extends FunctionalTestBase {
    */
   public function providerCookieRedirections(): iterable {
     yield ['en', 'fr'];
+
     yield ['en', 'de'];
 
     yield ['de', 'fr'];
+
     yield ['de', 'index.php'];
 
     yield ['fr', 'de'];
+
     yield ['fr', 'index.php'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function initMink() {
+    $session = parent::initMink();
+
+    /** @var \Behat\Mink\Driver\BrowserKitDriver $driver */
+    $driver = $session->getDriver();
+    // Since we are testing low-level redirect stuff, the HTTP client should
+    // NOT automatically follow redirects sent by the server.
+    $driver->getClient()->followRedirects(FALSE);
+
+    return $session;
   }
 
 }

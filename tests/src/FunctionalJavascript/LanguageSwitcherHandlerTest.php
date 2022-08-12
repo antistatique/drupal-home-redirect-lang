@@ -16,8 +16,11 @@ use WebDriver\Exception\UnknownError;
  * @group home_redirect_lang
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_functional_js
+ *
+ * @internal
+ * @coversNothing
  */
-class LanguageSwitcherHandlerTest extends WebDriverTestBase {
+final class LanguageSwitcherHandlerTest extends WebDriverTestBase {
 
   /**
    * {@inheritdoc}
@@ -47,7 +50,7 @@ class LanguageSwitcherHandlerTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
 
     // Create and log in user.
@@ -56,6 +59,78 @@ class LanguageSwitcherHandlerTest extends WebDriverTestBase {
       'administer languages',
       'access administration pages',
     ]);
+  }
+
+  /**
+   * Ensure the module JS libraries are attached on Language Switcher block.
+   */
+  public function testLanguageSwitcherLibrary(): void {
+    $xpath_common_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/modules/contrib/home_redirect_lang/js/home_redirect_lang.common.js']);
+    $xpath_switcher_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/modules/contrib/home_redirect_lang/js/home_redirect_lang.language_switcher.js']);
+
+    $common_js = $this->getSession()->getPage()->find('xpath', $xpath_common_js);
+    $switcher_js = $this->getSession()->getPage()->find('xpath', $xpath_switcher_js);
+
+    self::assertEmpty($common_js);
+    self::assertEmpty($switcher_js);
+
+    // Ensure the language switcher block is enabled.
+    $this->setupLanguageBlock();
+
+    $this->drupalGet('<front>');
+
+    $common_js = $this->getSession()->getPage()->find('xpath', $xpath_common_js);
+    $switcher_js = $this->getSession()->getPage()->find('xpath', $xpath_switcher_js);
+
+    if (empty($common_js)) {
+      throw new ElementNotFoundException($this->getSession()->getDriver(), 'Common JavaScript library missing.', 'script', 'home_redirect_lang.common.js');
+    }
+
+    if (empty($switcher_js)) {
+      throw new ElementNotFoundException($this->getSession()->getDriver(), 'Language Switcher JavaScript library missing.', 'script', 'home_redirect_lang.language_switcher.js');
+    }
+  }
+
+  /**
+   * Ensure the module JavasScript on Language Switcher add Cookie.
+   */
+  public function testLanguageSwitcherCookie(): void {
+    // Ensure the language switcher block is enabled.
+    $this->setupLanguageBlock();
+
+    $cookie_preferred_lang = NULL;
+
+    try {
+      $cookie_preferred_lang = $this->getSession()->getDriver()->getWebDriverSession()->getCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE);
+    }
+    catch (UnknownError $e) {
+      // getCookie will throw an exception when the cookie is not found.
+    } finally {
+      self::assertNull($cookie_preferred_lang);
+    }
+
+    // Navigate to the homepage and change the language to french.
+    $this->drupalGet('<front>');
+    $this->getSession()->getPage()->clickLink('français');
+
+    $cookie_preferred_lang = $this->getSession()->getDriver()->getWebDriverSession()->getCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE);
+    self::assertEquals('/', $cookie_preferred_lang['path']);
+    self::assertEquals('fr', $cookie_preferred_lang['value']);
+    self::assertFalse($cookie_preferred_lang['secure']);
+    self::assertFalse($cookie_preferred_lang['httpOnly']);
+  }
+
+  /**
+   * Saves the native name of a language entity in configuration as a label.
+   *
+   * @param string $langcode
+   *   The language code of the language.
+   * @param string $label
+   *   The native name of the language.
+   */
+  protected function saveNativeLanguageName($langcode, $label): void {
+    \Drupal::service('language.config_factory_override')
+      ->getOverride($langcode, 'language.entity.' . $langcode)->set('label', $label)->save();
   }
 
   /**
@@ -83,77 +158,6 @@ class LanguageSwitcherHandlerTest extends WebDriverTestBase {
     $this->drupalPlaceBlock('language_block:' . LanguageInterface::TYPE_INTERFACE, ['id' => 'test_language_block']);
 
     $this->drupalLogout();
-  }
-
-  /**
-   * Ensure the module JS libraries are attached on Language Switcher block.
-   */
-  public function testLanguageSwitcherLibrary(): void {
-    $xpath_common_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/modules/contrib/home_redirect_lang/js/home_redirect_lang.common.js']);
-    $xpath_switcher_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/modules/contrib/home_redirect_lang/js/home_redirect_lang.language_switcher.js']);
-
-    $common_js = $this->getSession()->getPage()->find('xpath', $xpath_common_js);
-    $switcher_js = $this->getSession()->getPage()->find('xpath', $xpath_switcher_js);
-
-    $this->assertEmpty($common_js);
-    $this->assertEmpty($switcher_js);
-
-    // Ensure the language switcher block is enabled.
-    $this->setupLanguageBlock();
-
-    $this->drupalGet('<front>');
-
-    $common_js = $this->getSession()->getPage()->find('xpath', $xpath_common_js);
-    $switcher_js = $this->getSession()->getPage()->find('xpath', $xpath_switcher_js);
-
-    if (empty($common_js)) {
-      throw new ElementNotFoundException($this->getSession()->getDriver(), 'Common JavaScript library missing.', 'script', 'home_redirect_lang.common.js');
-    }
-
-    if (empty($switcher_js)) {
-      throw new ElementNotFoundException($this->getSession()->getDriver(), 'Language Switcher JavaScript library missing.', 'script', 'home_redirect_lang.language_switcher.js');
-    }
-  }
-
-  /**
-   * Ensure the module JavasScript on Language Switcher add Cookie.
-   */
-  public function testLanguageSwitcherCookie(): void {
-    // Ensure the language switcher block is enabled.
-    $this->setupLanguageBlock();
-
-    $cookie_preferred_lang = NULL;
-    try {
-      $cookie_preferred_lang = $this->getSession()->getDriver()->getWebDriverSession()->getCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE);
-    }
-    catch (UnknownError $e) {
-      // getCookie will throw an exception when the cookie is not found.
-    } finally {
-      $this->assertNull($cookie_preferred_lang);
-    }
-
-    // Navigate to the homepage and change the language to french.
-    $this->drupalGet('<front>');
-    $this->getSession()->getPage()->clickLink('français');
-
-    $cookie_preferred_lang = $this->getSession()->getDriver()->getWebDriverSession()->getCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE);
-    $this->assertEquals('/', $cookie_preferred_lang['path']);
-    $this->assertEquals('fr', $cookie_preferred_lang['value']);
-    $this->assertEquals(FALSE, $cookie_preferred_lang['secure']);
-    $this->assertEquals(FALSE, $cookie_preferred_lang['httpOnly']);
-  }
-
-  /**
-   * Saves the native name of a language entity in configuration as a label.
-   *
-   * @param string $langcode
-   *   The language code of the language.
-   * @param string $label
-   *   The native name of the language.
-   */
-  protected function saveNativeLanguageName($langcode, $label): void {
-    \Drupal::service('language.config_factory_override')
-      ->getOverride($langcode, 'language.entity.' . $langcode)->set('label', $label)->save();
   }
 
 }
