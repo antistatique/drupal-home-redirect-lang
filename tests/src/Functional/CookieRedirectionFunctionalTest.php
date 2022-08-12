@@ -11,8 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
  * @group home_redirect_lang
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_cookie
+ *
+ * @internal
+ * @coversNothing
  */
-class CookieRedirectionFunctionalTest extends FunctionalTestBase {
+final class CookieRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertRedirectTrait;
 
   /**
@@ -33,30 +36,15 @@ class CookieRedirectionFunctionalTest extends FunctionalTestBase {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  protected function initMink() {
-    $session = parent::initMink();
-
-    /** @var \Behat\Mink\Driver\BrowserKitDriver $driver */
-    $driver = $session->getDriver();
-    // Since we are testing low-level redirect stuff, the HTTP client should
-    // NOT automatically follow redirects sent by the server.
-    $driver->getClient()->followRedirects(FALSE);
-
-    return $session;
-  }
-
-  /**
    * Prevent redirection without langcode cookie.
    *
    * By default, on the first visite (aka without having the preferred lang
    * cookie) the end-client should not be redirected anywhere.
    */
   public function testWithoutCookieShouldNotBeRedirected() {
-    $this->assertNoRedirect("/node/1");
-    $this->assertNoRedirect("/fr/node/1");
-    $this->assertNoRedirect("/de/node/1");
+    $this->assertNoRedirect('/node/1');
+    $this->assertNoRedirect('/fr/node/1');
+    $this->assertNoRedirect('/de/node/1');
 
     $this->assertNoRedirect('');
     $this->assertNoRedirect('/fr');
@@ -74,23 +62,23 @@ class CookieRedirectionFunctionalTest extends FunctionalTestBase {
     $session->setCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE, 'en');
     $this->assertNoRedirect('');
 
-    $this->assertNoRedirect("/node/1");
-    $this->assertNoRedirect("/fr/node/1");
-    $this->assertNoRedirect("/de/node/1");
+    $this->assertNoRedirect('/node/1');
+    $this->assertNoRedirect('/fr/node/1');
+    $this->assertNoRedirect('/de/node/1');
 
     $session->setCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE, 'fr');
     $this->assertNoRedirect('fr');
 
-    $this->assertNoRedirect("/node/1");
-    $this->assertNoRedirect("/fr/node/1");
-    $this->assertNoRedirect("/de/node/1");
+    $this->assertNoRedirect('/node/1');
+    $this->assertNoRedirect('/fr/node/1');
+    $this->assertNoRedirect('/de/node/1');
 
     $session->setCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE, 'de');
     $this->assertNoRedirect('de');
 
-    $this->assertNoRedirect("/node/1");
-    $this->assertNoRedirect("/fr/node/1");
-    $this->assertNoRedirect("/de/node/1");
+    $this->assertNoRedirect('/node/1');
+    $this->assertNoRedirect('/fr/node/1');
+    $this->assertNoRedirect('/de/node/1');
   }
 
   /**
@@ -119,12 +107,15 @@ class CookieRedirectionFunctionalTest extends FunctionalTestBase {
    */
   public function providerCookieRedirections(): iterable {
     yield ['en', 'fr', '/'];
+
     yield ['en', 'de', '/'];
 
     yield ['de', 'fr', '/de'];
+
     yield ['de', 'index.php', 'index.php/de'];
 
     yield ['fr', 'de', '/fr'];
+
     yield ['fr', 'index.php', 'index.php/fr'];
   }
 
@@ -141,6 +132,21 @@ class CookieRedirectionFunctionalTest extends FunctionalTestBase {
     $this->assertNoRedirect('');
     $this->assertNoRedirect('fr');
     $this->assertNoRedirect('de');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function initMink() {
+    $session = parent::initMink();
+
+    /** @var \Behat\Mink\Driver\BrowserKitDriver $driver */
+    $driver = $session->getDriver();
+    // Since we are testing low-level redirect stuff, the HTTP client should
+    // NOT automatically follow redirects sent by the server.
+    $driver->getClient()->followRedirects(FALSE);
+
+    return $session;
   }
 
 }

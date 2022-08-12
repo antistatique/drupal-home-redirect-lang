@@ -3,9 +3,9 @@
 namespace Drupal\Tests\home_redirect_lang\Functional\BrowserLanguageHeader;
 
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Drupal\Tests\home_redirect_lang\Functional\FunctionalTestBase;
 use Drupal\Tests\home_redirect_lang\Functional\AssertRedirectTrait;
+use Drupal\Tests\home_redirect_lang\Functional\FunctionalTestBase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Cover the Browser Language Redirection.
@@ -13,8 +13,11 @@ use Drupal\Tests\home_redirect_lang\Functional\AssertRedirectTrait;
  * @group home_redirect_lang
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_browser
+ *
+ * @internal
+ * @coversNothing
  */
-class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
+final class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertRedirectTrait;
 
   /**
@@ -35,21 +38,6 @@ class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
 
     $settings = $this->container->get('config.factory')->getEditable('home_redirect_lang.browser_fallback');
     $settings->set('enable_browser_fallback', TRUE)->save();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function initMink() {
-    $session = parent::initMink();
-
-    /** @var \Behat\Mink\Driver\BrowserKitDriver $driver */
-    $driver = $session->getDriver();
-    // Since we are testing low-level redirect stuff, the HTTP client should
-    // NOT automatically follow redirects sent by the server.
-    $driver->getClient()->followRedirects(FALSE);
-
-    return $session;
   }
 
   /**
@@ -74,9 +62,9 @@ class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
     $session = $this->getSession();
     $session->setRequestHeader(HomeRedirectLangInterface::BROWSER_HTTP_HEADER_PREFERRED_LANGCODE, 'fr-CH,fr;q=0.9,fr;q=0.8,de;q=0.7');
 
-    $this->assertNoRedirect("/node/1");
-    $this->assertNoRedirect("/fr/node/1");
-    $this->assertNoRedirect("/de/node/1");
+    $this->assertNoRedirect('/node/1');
+    $this->assertNoRedirect('/fr/node/1');
+    $this->assertNoRedirect('/de/node/1');
   }
 
   /**
@@ -126,12 +114,15 @@ class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
    */
   public function providerBrowserRedirections(): iterable {
     yield ['en-US,en;q=0.9,fr;q=0.8,de;q=0.7', 'fr', '/'];
+
     yield ['en-US,en;q=0.9,fr;q=0.8,de;q=0.7', 'de', '/'];
 
     yield ['de-CH,de;q=0.9,fr;q=0.8,de;q=0.7', 'fr', '/de'];
+
     yield ['de-CH,de;q=0.9,fr;q=0.8,de;q=0.7', 'index.php', 'index.php/de'];
 
     yield ['fr-FR,fr;q=0.9,fr;q=0.8,de;q=0.7', 'de', '/fr'];
+
     yield ['fr-FR,fr;q=0.9,fr;q=0.8,de;q=0.7', 'index.php', 'index.php/fr'];
   }
 
@@ -148,6 +139,21 @@ class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
     $this->assertNoRedirect('');
     $this->assertNoRedirect('/fr');
     $this->assertNoRedirect('/de');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function initMink() {
+    $session = parent::initMink();
+
+    /** @var \Behat\Mink\Driver\BrowserKitDriver $driver */
+    $driver = $session->getDriver();
+    // Since we are testing low-level redirect stuff, the HTTP client should
+    // NOT automatically follow redirects sent by the server.
+    $driver->getClient()->followRedirects(FALSE);
+
+    return $session;
   }
 
 }

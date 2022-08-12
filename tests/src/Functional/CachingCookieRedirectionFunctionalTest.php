@@ -11,8 +11,11 @@ use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
  * @group home_redirect_lang
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_cookie_cache
+ *
+ * @internal
+ * @coversNothing
  */
-class CachingCookieRedirectionFunctionalTest extends FunctionalTestBase {
+final class CachingCookieRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertPageCacheContextsAndTagsTrait;
 
   /**

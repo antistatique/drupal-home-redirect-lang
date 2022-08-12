@@ -2,17 +2,17 @@
 
 namespace Drupal\home_redirect_lang\EventSubscriber;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Url;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
 use Drupal\language\ConfigurableLanguageManagerInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Response;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Redirect visitor to there preferred language based on Cookie values.
@@ -86,7 +86,7 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
     $current_language = $this->languageManager->getCurrentLanguage();
     $http_referer = $this->request->server->get('HTTP_REFERER');
     $current_host = $this->request->getHost();
-    $referer_host = parse_url($http_referer, PHP_URL_HOST);
+    $referer_host = parse_url($http_referer, \PHP_URL_HOST);
 
     // Ensure the REFERER is external to disable redirection.
     if ($referer_bypass_enabled && !empty($referer_host) && !empty($current_host) && $current_host !== $referer_host) {
@@ -102,6 +102,7 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
       // Ensure the stored langcode on the cookie is supported by Drupal.
       /** @var \Drupal\Core\Language\Language|null $destination_language */
       $destination_language = $this->languageManager->getLanguage($this->request->cookies->get(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE));
+
       if (!$destination_language) {
         return;
       }

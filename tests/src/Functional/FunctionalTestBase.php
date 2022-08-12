@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\home_redirect_lang\Functional;
 
-use Drupal\Tests\BrowserTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Base class initializing multilingual Drupal with article entity and.
@@ -38,6 +38,16 @@ abstract class FunctionalTestBase extends BrowserTestBase {
   protected $entityTypeManager;
 
   /**
+   * {@inheritdoc}
+   */
+  public function setUp(): void {
+    parent::setUp();
+
+    /** @var \Drupal\Core\Entity\EntityTypeManager $entityTypeManager */
+    $this->entityTypeManager = $this->container->get('entity_type.manager');
+  }
+
+  /**
    * Sets up languages (fr & de) needed for test.
    *
    * The english (en) langcode will be available by default on functional tests.
@@ -46,17 +56,6 @@ abstract class FunctionalTestBase extends BrowserTestBase {
     // English (en) is created by default.
     ConfigurableLanguage::createFromLangcode('fr')->save();
     ConfigurableLanguage::createFromLangcode('de')->save();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setUp(): void {
-
-    parent::setUp();
-
-    /** @var \Drupal\Core\Entity\EntityTypeManager $entityTypeManager */
-    $this->entityTypeManager = $this->container->get('entity_type.manager');
   }
 
   /**
@@ -71,7 +70,7 @@ abstract class FunctionalTestBase extends BrowserTestBase {
     $this->drupalCreateContentType(['type' => 'article', 'name' => 'Article']);
 
     $article = $this->entityTypeManager->getStorage('node')->create([
-      'type'  => 'article',
+      'type' => 'article',
       'title' => 'News N°1',
     ]);
     $article->save();
