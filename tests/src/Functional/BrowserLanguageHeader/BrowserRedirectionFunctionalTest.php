@@ -30,7 +30,7 @@ final class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->setUpLanguages();

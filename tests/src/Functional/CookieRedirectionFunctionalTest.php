@@ -28,7 +28,7 @@ final class CookieRedirectionFunctionalTest extends FunctionalTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->setUpLanguages();
