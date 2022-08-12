@@ -88,6 +88,7 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
     ) {
 
       // Ensure the stored langcode on the cookie is supported by Drupal.
+      /** @var \Drupal\Core\Language\Language|null $destination_language */
       $destination_language = $this->languageManager->getLanguage($this->request->cookies->get(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE));
       if (!$destination_language) {
         return;

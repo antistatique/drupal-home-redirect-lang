@@ -1,0 +1,10 @@
+home_redirect_lang.browser_fallback:
+  type: config_object
+  label: 'Homepage Redirect Browser fallback settings'
+  mapping:
+    enable_browser_fallback:
+      type: boolean
+      label: 'Whether or not the Browser fallback should be enabled'
+    enable_referer_bypass:
+      type: boolean
+      label: 'Whether or not preventing redirection when Referer Header is given'

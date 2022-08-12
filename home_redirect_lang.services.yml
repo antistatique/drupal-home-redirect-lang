@@ -7,3 +7,8 @@ services:
     tags:
       - { name: event_subscriber }
 
+  home_redirect_lang.event.language_redirection.browser:
+    class: Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection
+    arguments: ['@request_stack', '@path.matcher', '@language_manager', '@config.factory']
+    tags:
+      - { name: event_subscriber }

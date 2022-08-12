@@ -1,0 +1,5 @@
+home_redirect_lang.settings:
+  title: 'Homepage Redirection by Language'
+  route_name: home_redirect_lang.settings
+  description: 'Configure features of Homepage Redirection by Language.'
+  parent: system.admin_config_system

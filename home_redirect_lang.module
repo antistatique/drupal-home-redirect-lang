@@ -20,6 +20,14 @@ function home_redirect_lang_preprocess_page(&$variables): void {
 
   $variables['#cache']['contexts'][] = 'cookies:' . HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE;
   $variables['#cache']['contexts'][] = 'headers:REFERER';
+
+  $browser_config = \Drupal::configFactory()->get('home_redirect_lang.browser_fallback');
+
+  // When the Fallback on browser language is enabled for the first visit.
+  if ($browser_config->get('enable_browser_fallback')) {
+    // @TODO: use header name Accept-Language
+    $variables['#cache']['contexts'][] = 'headers:' . HomeRedirectLangInterface::BROWSER_HTTP_HEADER_PREFERRED_LANGCODE;
+  }
 }
 
 /**

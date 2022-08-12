@@ -1,0 +1,9 @@
+home_redirect_lang.settings:
+  path: '/admin/config/home-redirect-lang/settings'
+  defaults:
+    _form: '\Drupal\home_redirect_lang\Form\SettingsForm'
+    _title: 'Settings'
+  requirements:
+    _permission: 'administer home_redirect_lang'
+  options:
+    _admin_route: TRUE
