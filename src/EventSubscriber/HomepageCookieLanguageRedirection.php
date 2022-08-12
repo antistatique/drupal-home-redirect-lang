@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Response;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Redirect visitor to there preferred language based on Cookie values.
@@ -43,12 +44,20 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
   protected $languageManager;
 
   /**
+   * The configuration factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Constructs a new LanguageRedirection object.
    */
-  public function __construct(RequestStack $request_stack, PathMatcher $path_matcher, ConfigurableLanguageManagerInterface $language_manager) {
+  public function __construct(RequestStack $request_stack, PathMatcher $path_matcher, ConfigurableLanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory) {
     $this->request = $request_stack->getCurrentRequest();
     $this->pathMatcher = $path_matcher;
     $this->languageManager = $language_manager;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -71,13 +80,16 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
       return;
     }
 
+    // Whether or not preventing redirection when Referer Header is given.
+    $referer_bypass_enabled = (bool) $this->configFactory->get('home_redirect_lang.cookie')->get('enable_referer_bypass');
+
     $current_language = $this->languageManager->getCurrentLanguage();
     $http_referer = $this->request->server->get('HTTP_REFERER');
     $current_host = $this->request->getHost();
     $referer_host = parse_url($http_referer, PHP_URL_HOST);
 
     // Ensure the REFERER is external to disable redirection.
-    if (!empty($referer_host) && !empty($current_host) && $current_host !== $referer_host) {
+    if ($referer_bypass_enabled && !empty($referer_host) && !empty($current_host) && $current_host !== $referer_host) {
       return;
     }
 

@@ -22,6 +22,7 @@ class SettingsForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
+      'home_redirect_lang.cookie',
       'home_redirect_lang.browser_fallback',
     ];
   }
@@ -31,10 +32,23 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
+    $cookie_config = $this->config('home_redirect_lang.cookie');
     $browser_config = $this->config('home_redirect_lang.browser_fallback');
 
     // Submitted form values should be nested.
     $form['#tree'] = TRUE;
+
+    $form['cookie'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Homepage redirection'),
+    ];
+
+    $form['cookie']['enable_referer_bypass'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Prevent redirecting when Referer is given.'),
+      '#default_value' => !empty($cookie_config->get('enable_referer_bypass')),
+      '#description' => $this->t('When a person visit your homepage from another website (REFERER), you can hope the other website has referred the language URL of your website. Therefore you may want to disable redirection when a REFERER header is given to avoid unattended redirection.'),
+    ];
 
     $form['browser_fallback'] = [
       '#type' => 'fieldset',
@@ -63,6 +77,10 @@ class SettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
+
+    $this->config('home_redirect_lang.cookie')
+      ->set('enable_referer_bypass', $form_state->getValue('cookie')['enable_referer_bypass'])
+      ->save();
 
     $this->config('home_redirect_lang.browser_fallback')
       ->set('enable_referer_bypass', $form_state->getValue('browser_fallback')['enable_referer_bypass'])

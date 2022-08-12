@@ -27,6 +27,9 @@ class CookieRefererRedirectionFunctionalTest extends FunctionalTestBase {
 
     $this->setUpLanguages();
     $this->setUpArticles();
+
+    $settings = $this->container->get('config.factory')->getEditable('home_redirect_lang.cookie');
+    $settings->set('enable_referer_bypass', TRUE)->save();
   }
 
   /**
@@ -56,6 +59,21 @@ class CookieRefererRedirectionFunctionalTest extends FunctionalTestBase {
 
     // Ensure the homepage will not trigger any redirecion because of referer.
     $this->assertNoRedirect($path);
+  }
+
+  /**
+   * Ensure redirection still triggered when the bypass settings is disabled.
+   */
+  public function testRefererBypasskSettingsDisabledShouldRedirect() {
+    $settings = $this->container->get('config.factory')->getEditable('home_redirect_lang.cookie');
+    $settings->set('enable_referer_bypass', FALSE)->save();
+
+    $session = $this->getSession();
+    $session->setCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE, 'fr');
+    $session->setRequestHeader('referer', 'https://www.google.ch');
+
+    // Ensure redirection still trigger as the refere bypass is disabled.
+    $this->assertRedirect('/de', '/fr', Response::HTTP_FOUND);
   }
 
   /**

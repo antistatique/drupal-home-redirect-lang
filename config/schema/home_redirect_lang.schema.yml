@@ -8,3 +8,11 @@ home_redirect_lang.browser_fallback:
     enable_referer_bypass:
       type: boolean
       label: 'Whether or not preventing redirection when Referer Header is given'
+
+home_redirect_lang.cookie:
+  type: config_object
+  label: 'Homepage Redirect Cookie settings'
+  mapping:
+    enable_referer_bypass:
+      type: boolean
+      label: 'Whether or not preventing redirection when Referer Header is given'
