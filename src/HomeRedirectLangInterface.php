@@ -27,4 +27,5 @@ interface HomeRedirectLangInterface {
    * @var string
    */
   const BROWSER_HTTP_HEADER_PREFERRED_LANGCODE = 'Accept-Language';
+
 }

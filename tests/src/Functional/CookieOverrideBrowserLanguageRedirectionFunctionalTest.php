@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @group home_redirect_lang_functional
  * @group home_redirect_lang_cooker_and_browser
  */
-class CookieOverrideBrowserLanguageRedirectionFunctionalTest extends FunctionalTestBase
-{
+class CookieOverrideBrowserLanguageRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertRedirectTrait;
 
   /**
@@ -106,4 +105,5 @@ class CookieOverrideBrowserLanguageRedirectionFunctionalTest extends FunctionalT
     yield ['', 'en', 'de', '/'];
     yield ['', 'fr', 'de', '/fr'];
   }
+
 }
