@@ -2,8 +2,7 @@ common:
   js:
     js/home_redirect_lang.common.js: {}
   dependencies:
-    - core/jquery
-    - core/jquery.cookie
+    - core/js-cookie
 
 language_switcher:
   js:
