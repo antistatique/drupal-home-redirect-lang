@@ -8,8 +8,6 @@
 
   'use strict';
 
-  Drupal.homeRedirectLang = {};
-
   /**
    * Create or updates the preferred language cookie.
    * *

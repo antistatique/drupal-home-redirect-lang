@@ -8,8 +8,6 @@
 
   'use strict';
 
-  Drupal.homeRedirectLangSwitcher = {};
-
   /**
    * Registers behaviours related to drupal language switcher.
    */
