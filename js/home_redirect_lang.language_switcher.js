@@ -4,7 +4,7 @@
  * Defines the behavior of the language switcher cookie storage.
  */
 
-(function ($, Drupal, drupalSettings) {
+(function (Drupal) {
 
   'use strict';
 
@@ -27,4 +27,4 @@
   };
 
 
-}(jQuery, Drupal, drupalSettings));
+}(Drupal));
