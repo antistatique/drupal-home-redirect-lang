@@ -44,8 +44,8 @@ Drupal.homeRedirectLang.setPreferredLanguage('fr');
 
 ```javascript
 let links = document.querySelectorAll('.language-link');
-links.forEach(box => {
-  box.addEventListener('click', function (event) {
+links.forEach(link => {
+  link.addEventListener('click', function (event) {
     var hreflang = event.target.getAttribute('hreflang');
     Drupal.homeRedirectLang.setPreferredLanguage(hreflang);
   });
