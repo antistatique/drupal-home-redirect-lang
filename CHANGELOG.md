@@ -6,3 +6,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - init module with Cookies & Browser redirection on Homepage only
+- handling of language switcher not found preventing JS console error

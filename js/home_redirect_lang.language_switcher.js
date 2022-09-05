@@ -16,6 +16,12 @@
   Drupal.behaviors.homeRedirectLangSwitcher = {
     attach: function (context) {
       let links = document.querySelectorAll('.language-switcher-language-url .language-link');
+
+      // Don't process when standard language switcher not found.
+      if (links.length === 0) {
+        return;
+      }
+
       links.forEach(box => {
         box.addEventListener('click', function (event) {
           var hreflang = event.target.getAttribute('hreflang');
