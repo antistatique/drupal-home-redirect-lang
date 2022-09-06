@@ -4,7 +4,7 @@
  * Common helper functions used by various parts of Homepage Redirect Language.
  */
 
-(function ($, Drupal, drupalSettings) {
+(function (Drupal) {
 
   'use strict';
 
@@ -22,4 +22,4 @@
     document.cookie = 'home_redirect_lang_preferred_langcode=' + langcode + '; expires=' + date.toUTCString() + '; path=/';
   };
 
-}(jQuery, Drupal, drupalSettings));
+}(Drupal));

@@ -4,7 +4,7 @@
  * Defines the behavior of the language switcher cookie storage.
  */
 
-(function ($, Drupal, drupalSettings) {
+(function (Drupal) {
 
   'use strict';
 
@@ -23,13 +23,8 @@
 
       let links = document.querySelectorAll('.language-switcher-language-url .language-link');
 
-      // Don't process when standard language switcher not found.
-      if (links.length === 0) {
-        return;
-      }
-
-      links.forEach(box => {
-        box.addEventListener('click', function (event) {
+      links.forEach(link => {
+        link.addEventListener('click', function (event) {
           var hreflang = event.target.getAttribute('hreflang');
           Drupal.homeRedirectLang.setPreferredLanguage(hreflang);
         });
@@ -39,4 +34,4 @@
   };
 
 
-}(jQuery, Drupal, drupalSettings));
+}(Drupal));
