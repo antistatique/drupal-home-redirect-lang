@@ -43,7 +43,18 @@ Drupal.homeRedirectLang.setPreferredLanguage('fr');
 ```
 
 ```javascript
+// Prevent attempting to attach cookie if the common library is not available.
+if (typeof Drupal.homeRedirectLang == "undefined") {
+  return;
+}
+
 let links = document.querySelectorAll('.language-link');
+
+// Don't process when standard language switcher not found.
+if (links.length === 0) {
+  return;
+}
+
 links.forEach(box => {
   box.addEventListener('click', function (event) {
     var hreflang = event.target.getAttribute('hreflang');
