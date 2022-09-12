@@ -6,4 +6,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - init module with Cookies & Browser redirection on Homepage only
+- handling of missing common JS library
 - remove dependency on JQuery
