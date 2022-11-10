@@ -6,6 +6,7 @@ use Behat\Mink\Exception\ElementNotFoundException;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
+use WebDriver\Exception\NoSuchCookie;
 use WebDriver\Exception\UnknownError;
 
 /**
@@ -103,7 +104,7 @@ final class LanguageSwitcherHandlerTest extends WebDriverTestBase {
     try {
       $cookie_preferred_lang = $this->getSession()->getDriver()->getWebDriverSession()->getCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE);
     }
-    catch (UnknownError $e) {
+    catch (NoSuchCookie | UnknownError $e) {
       // getCookie will throw an exception when the cookie is not found.
     } finally {
       self::assertNull($cookie_preferred_lang);
