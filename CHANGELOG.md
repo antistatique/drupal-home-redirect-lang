@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - fix Issue #3320300: Avoid "Uncaught ReferenceError: Drupal is not defined" for anonymous users
 
+### Removed
+- remove satackey/action-docker-layer-caching on Github Actions
+
 ## [1.0.0-alpha1] - 2022-09-22
 ### Added
 - init module with Cookies & Browser redirection on Homepage only
