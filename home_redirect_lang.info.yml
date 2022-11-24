@@ -2,5 +2,5 @@ name: Homepage Redirect Language
 type: module
 description: 'Redirect visitors landing on the Homepage to their preferred language, based on previous browsing session. Offering their native content as default.'
 package: Multilingual
-core_version_requirement: ^9.2 || ^10
+core_version_requirement: ^9.3 || ^10
 configure: home_redirect_lang.settings
