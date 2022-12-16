@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - fix Issue #3320300: Avoid "Uncaught ReferenceError: Drupal is not defined" for anonymous users
+- fix parse_url(): passing null to parameter #1 () of type string is deprecated
 
 ### Removed
 - remove satackey/action-docker-layer-caching on Github Actions
