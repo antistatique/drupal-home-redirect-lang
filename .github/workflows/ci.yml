@@ -6,6 +6,26 @@ on:
 
 jobs:
 
+  tests:
+    name: Tests
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        drupal_version: ['9.3', '9.4', '9.5', '10.0']
+        module: ['home_redirect_lang']
+        experimental: [ false ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker-compose -f docker-compose.yml pull --include-deps drupal
+      - name: Build the docker-compose stack
+        run: docker-compose -f docker-compose.yml build --pull --build-arg BASE_IMAGE_TAG=${{ matrix.drupal_version }} drupal
+      - name: Run unit tests
+        run: docker-compose -f docker-compose.yml run -u www-data drupal phpunit --no-coverage --group=${{ matrix.module }} --exclude-group=${{ matrix.module }}_functional --configuration=/var/www/html/phpunit.xml
+        continue-on-error: ${{ matrix.experimental }}
+
   tests-functional:
     name: Functional Tests
 
