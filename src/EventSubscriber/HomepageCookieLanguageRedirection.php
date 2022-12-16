@@ -23,6 +23,20 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
 
   /**
+   * The Cookie Redirection must be triggered after the Browser redirection.
+   *
+   * The value here must be lower than
+   * {@HomepageBrowserLanguageRedirection::PRIORITY}.
+   * This needs to run after \Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest(),
+   * which has a priority of 32.
+   * This needs to run after \Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection::redirectPreferredLanguage(),
+   * which has a priority of 31.
+   *
+   * @var int
+   */
+  private const PRIORITY = 30;
+
+  /**
    * Symfony\Component\HttpFoundation\RequestStack definition.
    *
    * @var \Symfony\Component\HttpFoundation\Request
@@ -65,7 +79,7 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      KernelEvents::REQUEST => ['redirectPreferredLanguage'],
+      KernelEvents::REQUEST => ['redirectPreferredLanguage', self::PRIORITY],
     ];
   }
 

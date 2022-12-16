@@ -26,6 +26,21 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
 
   /**
+   * The Browser Redirection must be triggered before the Cookie redirection.
+   *
+   * The value here must be higher than
+   * {@HomepageCookieLanguageRedirection::PRIORITY}.
+   *
+   * This needs to run after \Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest(),
+   * which has a priority of 32.
+   * This needs to run before \Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection::redirectPreferredLanguage(),
+   * which has a priority of 30.
+   *
+   * @var int
+   */
+  private const PRIORITY = 31;
+
+  /**
    * Symfony\Component\HttpFoundation\RequestStack definition.
    *
    * @var \Symfony\Component\HttpFoundation\Request
@@ -68,7 +83,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      KernelEvents::REQUEST => ['redirectPreferredLanguage'],
+      KernelEvents::REQUEST => ['redirectPreferredLanguage', self::PRIORITY],
     ];
   }
 
@@ -113,7 +128,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
 
     // When the preferred language cookie exists, then use it instead of the
     // browser fallback.
-    if ($this->request->cookies->has(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE)) {
+    if ($this->request->cookies->has(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE) && $this->request->cookies->get(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE) !== '') {
       return;
     }
 
