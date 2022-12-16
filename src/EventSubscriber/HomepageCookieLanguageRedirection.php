@@ -77,7 +77,7 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     return [
       KernelEvents::REQUEST => ['redirectPreferredLanguage', self::PRIORITY],
     ];
@@ -89,7 +89,7 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
    * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   The event.
    */
-  public function redirectPreferredLanguage(RequestEvent $event) {
+  public function redirectPreferredLanguage(RequestEvent $event): void {
     if (!$this->pathMatcher->isFrontPage()) {
       return;
     }

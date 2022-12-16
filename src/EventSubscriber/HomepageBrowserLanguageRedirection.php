@@ -81,7 +81,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     return [
       KernelEvents::REQUEST => ['redirectPreferredLanguage', self::PRIORITY],
     ];
@@ -93,7 +93,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
    * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   The event.
    */
-  public function redirectPreferredLanguage(RequestEvent $event) {
+  public function redirectPreferredLanguage(RequestEvent $event): void {
     if (!$this->pathMatcher->isFrontPage()) {
       return;
     }
@@ -141,7 +141,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
       return;
     }
 
-    // Ensure the stored langcode on the cookie is supported by Drupal.
+    // Ensure the stored langcode on the browser is supported by Drupal.
     /** @var \Drupal\Core\Language\Language|null $destination_language */
     $destination_language = $this->languageManager->getLanguage($destination_langcode);
 
