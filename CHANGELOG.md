@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.0.0] - 2022-12-16
 ### Fixed
 - fix Issue #3320300: Avoid "Uncaught ReferenceError: Drupal is not defined" for anonymous users
 - fix parse_url(): passing null to parameter #1 () of type string is deprecated
@@ -27,4 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - handling of missing common JS library
 - remove dependency on JQuery
 
+[Unreleased]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.0.0-alpha1...1.0.0
 [1.0.0-alpha1]: https://github.com/antistatique/drupal-home-redirect-lang/releases/tag/1.0.0-alpha1
