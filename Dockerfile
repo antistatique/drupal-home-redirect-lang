@@ -5,7 +5,7 @@ ARG BASE_IMAGE_TAG
 ENV BASE_IMAGE_TAG=${BASE_IMAGE_TAG}
 
 # Disable deprecation notice.
-ENV SYMFONY_DEPRECATIONS_HELPER=disabled
+# ENV SYMFONY_DEPRECATIONS_HELPER=disabled
 
 # Register the Drupal and DrupalPractice Standard with PHPCS.
 #RUN ./vendor/bin/phpcs --config-set installed_paths \
