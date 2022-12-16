@@ -57,7 +57,7 @@ final class CookieOverrideBrowserLanguageRedirectionFunctionalTest extends Funct
   }
 
   /**
-   * Provides test data for the cookie redirection overrode browser.
+   * Provides test data for the cookie redirection override browser.
    */
   public function providerCookieMustRedirectOverBrowserPreferredRedirection(): iterable {
     yield ['en', 'en', 'fr', '/'];

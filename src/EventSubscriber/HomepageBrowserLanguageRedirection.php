@@ -26,6 +26,21 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
 
   /**
+   * The Browser Redirection must be triggered before the Cookie redirection.
+   *
+   * The value here must be higher than
+   * {@HomepageCookieLanguageRedirection::PRIORITY}.
+   *
+   * This needs to run after \Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest(),
+   * which has a priority of 32.
+   * This needs to run before \Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection::redirectPreferredLanguage(),
+   * which has a priority of 30.
+   *
+   * @var int
+   */
+  private const PRIORITY = 31;
+
+  /**
    * Symfony\Component\HttpFoundation\RequestStack definition.
    *
    * @var \Symfony\Component\HttpFoundation\Request
@@ -66,9 +81,9 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     return [
-      KernelEvents::REQUEST => ['redirectPreferredLanguage'],
+      KernelEvents::REQUEST => ['redirectPreferredLanguage', self::PRIORITY],
     ];
   }
 
@@ -78,7 +93,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
    * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   The event.
    */
-  public function redirectPreferredLanguage(RequestEvent $event) {
+  public function redirectPreferredLanguage(RequestEvent $event): void {
     if (!$this->pathMatcher->isFrontPage()) {
       return;
     }
@@ -97,14 +112,14 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
       return;
     }
 
-    // Whether or not preventing redirection when Referer Header is given.
+    // Whether preventing redirection when Referer Header is given.
     $referer_bypass_enabled = (bool) $this->configFactory->get('home_redirect_lang.browser_fallback')->get('enable_referer_bypass');
 
     /** @var \Drupal\Core\Language\Language $current_language */
     $current_language = $this->languageManager->getCurrentLanguage();
     $http_referer = $this->request->server->get('HTTP_REFERER');
     $current_host = $this->request->getHost();
-    $referer_host = parse_url($http_referer, \PHP_URL_HOST);
+    $referer_host = parse_url((string) $http_referer, \PHP_URL_HOST);
 
     // Ensure the REFERER is external to disable redirection.
     if ($referer_bypass_enabled && !empty($referer_host) && !empty($current_host) && $current_host !== $referer_host) {
@@ -113,7 +128,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
 
     // When the preferred language cookie exists, then use it instead of the
     // browser fallback.
-    if ($this->request->cookies->has(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE)) {
+    if ($this->request->cookies->has(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE) && $this->request->cookies->get(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE) !== '') {
       return;
     }
 
@@ -126,7 +141,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
       return;
     }
 
-    // Ensure the stored langcode on the cookie is supported by Drupal.
+    // Ensure the stored langcode on the browser is supported by Drupal.
     /** @var \Drupal\Core\Language\Language|null $destination_language */
     $destination_language = $this->languageManager->getLanguage($destination_langcode);
 

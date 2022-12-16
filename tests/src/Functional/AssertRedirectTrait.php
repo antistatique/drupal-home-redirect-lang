@@ -43,7 +43,7 @@ trait AssertRedirectTrait {
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  protected function assertNoRedirect($path, $status_code = 200): void {
+  protected function assertNoRedirect(string $path, int $status_code = 200): void {
     $url = $this->getAbsoluteUrl($path);
     $this->getSession()->visit($url);
 

@@ -5,6 +5,7 @@ on:
     - cron: '0 0 * * THU'
 
 jobs:
+
   tests:
     name: Tests
 
@@ -12,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        drupal_version: ['9.3', '9.4', '9.5']
+        drupal_version: ['9.3', '9.4', '9.5', '10.0']
         module: ['home_redirect_lang']
         experimental: [ false ]
 
@@ -32,7 +33,7 @@ jobs:
 
     strategy:
       matrix:
-        drupal_version: ['9.3', '9.4', '9.5']
+        drupal_version: ['9.3', '9.4', '9.5', '10.0']
         module: ['home_redirect_lang']
         experimental: [ false ]
 

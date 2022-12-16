@@ -23,7 +23,7 @@ First, you will need to have the following tools installed
 globally on your environment:
 
   * drush
-  * Latest dev release of Drupal 9.x.
+  * Latest dev release of Drupal 9.x/10.x.
   * docker
   * docker-compose
 
