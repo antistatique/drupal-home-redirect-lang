@@ -119,7 +119,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
     $kernel = $this->prophesize(HttpKernelInterface::class);
     $request = Request::create('/', 'GET');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MAIN_REQUEST);
 
     $this->pathMatcher
       ->expects($this->once())
@@ -143,7 +143,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
     $this->request->server->set('HTTP_REFERER', 'https://www.google.ch');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->never())
@@ -183,7 +183,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
 
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->never())
@@ -224,7 +224,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', 'fr');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->once())
@@ -266,7 +266,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', 'ru');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->once())
@@ -313,7 +313,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', 'en');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->once())
