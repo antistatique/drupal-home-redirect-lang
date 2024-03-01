@@ -11,6 +11,7 @@ use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection;
 use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\Tests\UnitTestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,6 +26,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
 
+  use ProphecyTrait;
   /**
    * The event subscriber to be tested.
    *
@@ -97,23 +99,15 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
     $this->request = Request::createFromGlobals();
     $this->request->headers->set('HOST', 'drupal');
 
-    $this->requestStack = $this->getMockBuilder(RequestStack::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->requestStack = $this->createMock(RequestStack::class);
 
     $this->requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($this->request);
 
-    $this->pathMatcher = $this->getMockBuilder(PathMatcher::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->pathMatcher = $this->createMock(PathMatcher::class);
 
-    $this->languageManager = $this->getMockBuilder(ConfigurableLanguageManagerInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->languageManager = $this->createMock(ConfigurableLanguageManagerInterface::class);
 
-    $this->configFactory = $this->getMockBuilder(ConfigFactoryInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->configFactory = $this->createMock(ConfigFactoryInterface::class);
 
     $this->cookieLanguageRedirectionEventSubscriber = new HomepageCookieLanguageRedirection($this->requestStack, $this->pathMatcher, $this->languageManager, $this->configFactory);
   }
@@ -164,9 +158,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_referer_bypass')
@@ -206,9 +198,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_referer_bypass')
@@ -250,9 +240,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_referer_bypass')
@@ -294,9 +282,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_referer_bypass')
@@ -343,9 +329,7 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_referer_bypass')

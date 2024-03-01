@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix phpcs use statements should be sorted alphabetically
 - fix missing call to parent::setUp() on tests
 - use responseHeaderDoesNotExist instead of responseHeaderEquals with NULL value
+- fix automated Drupal 10 compatibility fixes - Issue #3329302 by Project Update Bot
 
 ## [1.0.0] - 2022-12-16
 ### Fixed
