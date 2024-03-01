@@ -12,8 +12,8 @@ use Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection;
 use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
