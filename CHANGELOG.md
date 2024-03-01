@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - fix deprecation creation of dynamic property
 - fix phpcs use statements should be sorted alphabetically
+- fix missing call to parent::setUp() on tests
 
 ## [1.0.0] - 2022-12-16
 ### Fixed

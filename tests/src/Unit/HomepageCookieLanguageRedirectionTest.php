@@ -86,6 +86,8 @@ class HomepageCookieLanguageRedirectionTest extends UnitTestCase {
    * {@inheritdoc}
    */
   public function setUp(): void {
+    parent::setUp();
+
     $container = new ContainerBuilder();
     \Drupal::setContainer($container);
 
