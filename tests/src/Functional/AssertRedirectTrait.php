@@ -49,7 +49,7 @@ trait AssertRedirectTrait {
 
     $assert_session = $this->assertSession();
     $assert_session->statusCodeEquals($status_code);
-    $assert_session->responseHeaderEquals('Location', NULL);
+    $assert_session->responseHeaderDoesNotExist('Location');
     $assert_session->responseNotContains('http-equiv="refresh');
     $assert_session->addressEquals($path);
 

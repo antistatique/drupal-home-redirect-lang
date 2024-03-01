@@ -11,11 +11,12 @@ use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection;
 use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\Tests\UnitTestCase;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * @coversDefaultClass \Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection
@@ -25,6 +26,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
 
+  use ProphecyTrait;
   /**
    * The event subscriber to be tested.
    *
@@ -33,9 +35,53 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
   protected $browserLanguageRedirectionEventSubscriber;
 
   /**
+   * The URL generator.
+   *
+   * @var \Drupal\Core\Routing\UrlGeneratorInterface
+   */
+  protected $urlGenerator;
+
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
+   * The patch matcher service.
+   *
+   * @var \Drupal\Core\Path\PathMatcherInterface
+   */
+  protected $pathMatcher;
+
+  /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * The test Request object.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $request;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp(): void {
+    parent::setUp();
+
     $container = new ContainerBuilder();
     \Drupal::setContainer($container);
 
@@ -45,23 +91,15 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $this->request = Request::createFromGlobals();
     $this->request->headers->set('HOST', 'drupal');
 
-    $this->requestStack = $this->getMockBuilder(RequestStack::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->requestStack = $this->createMock(RequestStack::class);
 
     $this->requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($this->request);
 
-    $this->pathMatcher = $this->getMockBuilder(PathMatcher::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->pathMatcher = $this->createMock(PathMatcher::class);
 
-    $this->languageManager = $this->getMockBuilder(ConfigurableLanguageManagerInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->languageManager = $this->createMock(ConfigurableLanguageManagerInterface::class);
 
-    $this->configFactory = $this->getMockBuilder(ConfigFactoryInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->configFactory = $this->createMock(ConfigFactoryInterface::class);
 
     $this->browserLanguageRedirectionEventSubscriber = new HomepageBrowserLanguageRedirection($this->requestStack, $this->pathMatcher, $this->languageManager, $this->configFactory);
   }
@@ -104,9 +142,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->expects($this->never())
       ->method('getCurrentLanguage');
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_browser_fallback')
@@ -139,9 +175,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->expects($this->never())
       ->method('getCurrentLanguage');
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->once())
       ->method('get')
       ->with('enable_browser_fallback')
@@ -182,25 +216,21 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, TRUE);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', TRUE],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+      ]);
 
     self::assertNull($this->browserLanguageRedirectionEventSubscriber->redirectPreferredLanguage($event));
     self::assertNull($event->getResponse());
@@ -231,25 +261,21 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->never())
       ->method('getLanguages');
@@ -284,27 +310,23 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-        ['map']
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE, []);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+        ['map', []],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-        ['language.mappings']
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['language.mappings', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->once())
       ->method('getLanguages')
@@ -343,27 +365,23 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-        ['map']
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE, []);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+        ['map', []],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-        ['language.mappings']
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['language.mappings', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->once())
       ->method('getLanguages')
@@ -404,27 +422,23 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
       ->method('getCurrentLanguage')
       ->willReturn($currentLanguage);
 
-    $immutable_config_object = $this->getMockBuilder(ImmutableConfig::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-        ['map']
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE, []);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+        ['map', []],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-        ['language.mappings']
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['language.mappings', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->once())
       ->method('getLanguages')
