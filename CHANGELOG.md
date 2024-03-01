@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - use responseHeaderDoesNotExist instead of responseHeaderEquals with NULL value
 - fix automated Drupal 10 compatibility fixes - Issue #3329302 by Project Update Bot
 - fix library testing path that may be inconsistent between Github Actions & GitlabCI
+- fix call to deprecated method withConsecutive() on PHPUnit
 
 ## [1.0.0] - 2022-12-16
 ### Fixed

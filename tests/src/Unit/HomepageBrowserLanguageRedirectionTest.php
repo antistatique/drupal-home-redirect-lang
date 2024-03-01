@@ -219,20 +219,18 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, TRUE);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', TRUE],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+      ]);
 
     self::assertNull($this->browserLanguageRedirectionEventSubscriber->redirectPreferredLanguage($event));
     self::assertNull($event->getResponse());
@@ -266,20 +264,18 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(2))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->never())
       ->method('getLanguages');
@@ -317,22 +313,20 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-        ['map']
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE, []);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+        ['map', []],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-        ['language.mappings']
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['language.mappings', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->once())
       ->method('getLanguages')
@@ -374,22 +368,20 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-        ['map']
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE, []);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+        ['map', []],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-        ['language.mappings']
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['language.mappings', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->once())
       ->method('getLanguages')
@@ -433,22 +425,20 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $immutable_config_object = $this->createMock(ImmutableConfig::class);
     $immutable_config_object->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['enable_browser_fallback'],
-        ['enable_referer_bypass'],
-        ['map']
-      )
-      ->willReturnOnConsecutiveCalls(TRUE, FALSE, []);
+      ->willReturnMap([
+        ['enable_browser_fallback', TRUE],
+        ['enable_referer_bypass', FALSE],
+        ['map', []],
+      ]);
 
     $this->configFactory
       ->expects($this->exactly(3))
       ->method('get')
-      ->withConsecutive(
-        ['home_redirect_lang.browser_fallback'],
-        ['home_redirect_lang.browser_fallback'],
-        ['language.mappings']
-      )
-      ->willReturn($immutable_config_object);
+      ->willReturnMap([
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['home_redirect_lang.browser_fallback', $immutable_config_object],
+        ['language.mappings', $immutable_config_object],
+      ]);
 
     $this->languageManager->expects($this->once())
       ->method('getLanguages')
