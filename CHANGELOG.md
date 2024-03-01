@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - add Drupal GitlabCI
 
+### Fixed
+- fix deprecation creation of dynamic property
+
 ## [1.0.0] - 2022-12-16
 ### Fixed
 - fix Issue #3320300: Avoid "Uncaught ReferenceError: Drupal is not defined" for anonymous users
