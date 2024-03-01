@@ -64,10 +64,12 @@ final class LanguageSwitcherHandlerTest extends WebDriverTestBase {
 
   /**
    * Ensure the module JS libraries are attached on Language Switcher block.
+   *
+   * @group kevin
    */
   public function testLanguageSwitcherLibrary(): void {
-    $xpath_common_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/modules/contrib/home_redirect_lang/js/home_redirect_lang.common.js']);
-    $xpath_switcher_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/modules/contrib/home_redirect_lang/js/home_redirect_lang.language_switcher.js']);
+    $xpath_common_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/home_redirect_lang/js/home_redirect_lang.common.js']);
+    $xpath_switcher_js = $this->assertSession()->buildXPathQuery('//script[contains(@src, :value)]', [':value' => '/home_redirect_lang/js/home_redirect_lang.language_switcher.js']);
 
     $common_js = $this->getSession()->getPage()->find('xpath', $xpath_common_js);
     $switcher_js = $this->getSession()->getPage()->find('xpath', $xpath_switcher_js);
