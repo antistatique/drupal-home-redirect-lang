@@ -53,7 +53,6 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
    */
   protected $pathMatcher;
 
-
   /**
    * The config factory.
    *
