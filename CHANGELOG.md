@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - add Drupal GitlabCI
+- add coverage of Drupal 10.2.x
+- add coverage of Drupal 11.0-dev
+
+### Removed
+- drop tests support on Drupal <= 9.4
 
 ### Fixed
 - fix deprecation creation of dynamic property
