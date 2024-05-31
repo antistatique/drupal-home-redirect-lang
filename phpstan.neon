@@ -4,7 +4,4 @@ includes:
 parameters:
   level: 1
   reportUnmatchedIgnoredErrors: false
-  ignoreErrors:
-    # The module support Drupal 9, Drupal 10 and Drupal 11, so we cannot fix that deprecation without dropping support of Drupal 9.
-    - "#^Fetching deprecated class constant MASTER_REQUEST of class Symfony\\\\Component\\\\HttpKernel\\\\HttpKernelInterface#"
-    - "#^Fetching deprecated class constant MASTER_REQUEST of interface Symfony\\\\Component\\\\HttpKernel\\\\HttpKernelInterface#"
+  # ignoreErrors:
