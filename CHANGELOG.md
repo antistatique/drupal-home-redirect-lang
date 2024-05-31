@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add Drupal GitlabCI
 - add coverage of Drupal 10.2.x
 - add coverage of Drupal 11.0-dev
+- add cspell project words for Gitlab-CI
 
 ### Removed
 - drop tests support on Drupal <= 9.4
