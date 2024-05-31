@@ -105,7 +105,7 @@ final class CookieRedirectionFunctionalTest extends FunctionalTestBase {
   /**
    * Provides test data for the testCookieRedirections() method.
    */
-  public function providerCookieRedirections(): iterable {
+  public static function providerCookieRedirections(): iterable {
     yield ['en', 'fr', '/'];
 
     yield ['en', 'de', '/'];

@@ -87,7 +87,7 @@ final class RefererRedirectionFunctionalTest extends FunctionalTestBase {
   /**
    * Provides test data for the testBrowserRedirections() method.
    */
-  public function providerBrowserRedirections(): iterable {
+  public static function providerBrowserRedirections(): iterable {
     yield ['en-US,en;q=0.9,fr;q=0.8,de;q=0.7', '/fr'];
 
     yield ['en-US,en;q=0.9,fr;q=0.8,de;q=0.7', '/de'];

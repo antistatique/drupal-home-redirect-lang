@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix library testing path that may be inconsistent between Github Actions & GitlabCI
 - fix call to deprecated method withConsecutive() on PHPUnit
 - ignore deprecation using HttpKernelInterface::MAIN_REQUEST instead of HttpKernelInterface::MASTER_REQUEST until drop support of Drupal 9.x
+- fix deprecation by passing @dataprovider as static function
 
 ## [1.0.0] - 2022-12-16
 ### Fixed

@@ -81,7 +81,7 @@ final class CachingRedirectionFunctionalTest extends FunctionalTestBase {
   /**
    * Provides test data for the testCachingBrowserHeaderRedirections() method.
    */
-  public function providerCachedBrowserHeaderRedirections(): iterable {
+  public static function providerCachedBrowserHeaderRedirections(): iterable {
     yield [[
       [
         'fr',
