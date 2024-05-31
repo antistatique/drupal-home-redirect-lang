@@ -27,6 +27,17 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
 
   use ProphecyTrait;
+
+  /**
+   * Mimic Symfony MASTER_REQUEST/MAIN_REQUEST from HttpKernelInterface.
+   *
+   * In order to keep Drupal 9 compatibility, we need to define this constant by
+   * ourselves as Drupal 11 (Symfony 7) drop usage of MASTER_REQUEST.
+   *
+   * @see https://www.drupal.org/node/3236639
+   */
+  private const  MAIN_REQUEST = 1;
+
   /**
    * The event subscriber to be tested.
    *
@@ -111,7 +122,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $kernel = $this->prophesize(HttpKernelInterface::class);
     $request = Request::create('/', 'GET');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $this->pathMatcher
       ->expects($this->once())
@@ -132,7 +143,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $kernel = $this->prophesize(HttpKernelInterface::class);
     $request = Request::create('/', 'GET');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $this->pathMatcher
       ->expects($this->once())
@@ -165,7 +176,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $kernel = $this->prophesize(HttpKernelInterface::class);
     $request = Request::create('/', 'GET');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $this->pathMatcher
       ->expects($this->once())
@@ -201,7 +212,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
     $this->request->server->set('HTTP_REFERER', 'https://www.google.ch');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->never())
@@ -246,7 +257,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', 'en');
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->never())
@@ -294,7 +305,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', '');
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'fr');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->once())
@@ -349,7 +360,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', '');
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'en');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->once())
@@ -406,7 +417,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
     $this->request->cookies->set('home_redirect_lang_preferred_langcode', '');
     $this->request->server->set('HTTP_ACCEPT_LANGUAGE', 'en');
 
-    $event = new RequestEvent($kernel->reveal(), $request, HttpKernelInterface::MASTER_REQUEST);
+    $event = new RequestEvent($kernel->reveal(), $request, self::MAIN_REQUEST);
 
     $currentLanguage = $this->createMock(LanguageInterface::class);
     $currentLanguage->expects($this->once())
