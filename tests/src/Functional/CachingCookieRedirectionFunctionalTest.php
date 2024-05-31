@@ -75,7 +75,7 @@ final class CachingCookieRedirectionFunctionalTest extends FunctionalTestBase {
   /**
    * Provides test data for the testCachingCookieRedirections() method.
    */
-  public function providerCachedCookieRedirections(): iterable {
+  public static function providerCachedCookieRedirections(): iterable {
     yield [[
       [
         'fr',
