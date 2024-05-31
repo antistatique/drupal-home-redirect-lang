@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add coverage of Drupal 10.3.x
 - add experimental coverage of Drupal 11.0-dev
 - add cspell project words for Gitlab-CI
+- add phpstan.neon file
 
 ### Removed
 - drop tests support on Drupal <= 9.4
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix automated Drupal 10 compatibility fixes - Issue #3329302 by Project Update Bot
 - fix library testing path that may be inconsistent between Github Actions & GitlabCI
 - fix call to deprecated method withConsecutive() on PHPUnit
+- ignore deprecation using HttpKernelInterface::MAIN_REQUEST instead of HttpKernelInterface::MASTER_REQUEST until drop support of Drupal 9.x
 
 ## [1.0.0] - 2022-12-16
 ### Fixed

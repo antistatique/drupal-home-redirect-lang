@@ -104,6 +104,18 @@ Detect overcomplicated expressions & Unused parameters, methods, properties.
   --suffixes php,module,inc,install,test,profile,theme,css,info,txt --exclude *Test.php,*vendor/*
   ```
 
+#### Running PHPStan
+
+https://phpstan.org/
+
+Find bugs before they reach production
+
+  ```
+  $ docker compose exec drupal vendor/bin/phpstan analyze \
+  -c ./web/modules/contrib/home_redirect_lang/phpstan.neon \
+  ./web/modules/contrib/home_redirect_lang
+  ```
+
 #### Running PHP Copy/Paste Detector
 
 https://github.com/sebastianbergmann/phpcpd
