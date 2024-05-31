@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - add Drupal GitlabCI
 - add coverage of Drupal 10.2.x
-- add coverage of Drupal 11.0-dev
+- add coverage of Drupal 10.3.x
+- add experimental coverage of Drupal 11.0-dev
 - add cspell project words for Gitlab-CI
 
 ### Removed

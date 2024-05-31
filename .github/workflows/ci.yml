@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        drupal_version: ['9.5', '10.0', '10.1', '10.2', '11.0']
+        drupal_version: ['9.5', '10.0', '10.1', '10.2', '10.3']
         module: ['home_redirect_lang']
         experimental: [ false ]
         include:
@@ -37,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        drupal_version: ['9.5', '10.0', '10.1', '10.2', '11.0']
+        drupal_version: ['9.5', '10.0', '10.1', '10.2', '10.3']
         module: ['home_redirect_lang']
         experimental: [ false ]
         include:
