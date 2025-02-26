@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - fix obsolete docker-compose command in CIs
 
+### Removed
+- remove legacy version annotation on docker-compose.yml
+
+### Changed
+- update Docker MariaDB 10.3 -> 10.6
+
 ## [1.1.0] - 2024-05-31
 ### Added
 - add Drupal GitlabCI
