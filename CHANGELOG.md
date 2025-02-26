@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add official stable support for drupal 10.4
 - add official stable support for drupal 11.1
 
+### Fixed
+- fix obsolete docker-compose command in CIs
+
 ## [1.1.0] - 2024-05-31
 ### Added
 - add Drupal GitlabCI
