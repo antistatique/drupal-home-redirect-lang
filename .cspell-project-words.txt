@@ -23,4 +23,3 @@ unusedcode
 visite
 wapmorgan
 wengerk
-whitelisted
