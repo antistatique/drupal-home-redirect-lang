@@ -4,7 +4,7 @@ namespace Drupal\home_redirect_lang\EventSubscriber;
 
 use Drupal\Component\Utility\UserAgent;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Path\PathMatcher;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Url;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
 use Drupal\language\ConfigurableLanguageManagerInterface;
@@ -71,7 +71,7 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
   /**
    * Constructs a new Homepage BrowserLanguageRedirection object.
    */
-  public function __construct(RequestStack $request_stack, PathMatcher $path_matcher, ConfigurableLanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory) {
+  public function __construct(RequestStack $request_stack, PathMatcherInterface $path_matcher, ConfigurableLanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory) {
     $this->request = $request_stack->getCurrentRequest();
     $this->pathMatcher = $path_matcher;
     $this->languageManager = $language_manager;
