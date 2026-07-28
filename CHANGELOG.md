@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - ci(phpcs): exclude generated gitlab_templates_version.txt
 
+### Fixed
+- fix: use PathMatcherInterface instead of the concrete PathMatcher in event subscribers - #3613725
+
 ## [1.1.4] - 2026-02-13
 ### Added
 - add official support of drupal 10.6

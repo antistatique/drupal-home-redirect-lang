@@ -6,7 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Path\PathMatcher;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection;
 use Drupal\language\ConfigurableLanguageManagerInterface;
@@ -106,7 +106,7 @@ class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
 
     $this->requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($this->request);
 
-    $this->pathMatcher = $this->createMock(PathMatcher::class);
+    $this->pathMatcher = $this->createMock(PathMatcherInterface::class);
 
     $this->languageManager = $this->createMock(ConfigurableLanguageManagerInterface::class);
 
