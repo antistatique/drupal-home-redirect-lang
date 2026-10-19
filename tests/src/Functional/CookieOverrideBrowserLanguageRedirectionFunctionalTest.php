@@ -3,6 +3,9 @@
 namespace Drupal\Tests\home_redirect_lang\Functional;
 
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -15,6 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  * @coversNothing
  */
+#[Group('home_redirect_lang')]
+#[Group('home_redirect_lang_functional')]
+#[Group('home_redirect_lang_cooker_and_browser')]
+#[RunTestsInSeparateProcesses]
 final class CookieOverrideBrowserLanguageRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertRedirectTrait;
 
@@ -47,6 +54,7 @@ final class CookieOverrideBrowserLanguageRedirectionFunctionalTest extends Funct
    *
    * @dataProvider providerCookieMustRedirectOverBrowserPreferredRedirection
    */
+  #[DataProvider('providerCookieMustRedirectOverBrowserPreferredRedirection')]
   public function testCookieMustRedirectOverBrowserPreferredRedirection(string $cookie_preferred_langcode, string $server_http_preferred_langcode, string $path, string $expected) {
     $session = $this->getSession();
     $session->setCookie(HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE, $cookie_preferred_langcode);

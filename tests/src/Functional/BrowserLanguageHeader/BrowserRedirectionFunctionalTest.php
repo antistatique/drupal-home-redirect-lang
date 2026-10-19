@@ -5,6 +5,9 @@ namespace Drupal\Tests\home_redirect_lang\Functional\BrowserLanguageHeader;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
 use Drupal\Tests\home_redirect_lang\Functional\AssertRedirectTrait;
 use Drupal\Tests\home_redirect_lang\Functional\FunctionalTestBase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,6 +20,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  * @coversNothing
  */
+#[Group('home_redirect_lang')]
+#[Group('home_redirect_lang_functional')]
+#[Group('home_redirect_lang_browser')]
+#[RunTestsInSeparateProcesses]
 final class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertRedirectTrait;
 
@@ -101,6 +108,7 @@ final class BrowserRedirectionFunctionalTest extends FunctionalTestBase {
    *
    * @dataProvider providerBrowserRedirections
    */
+  #[DataProvider('providerBrowserRedirections')]
   public function testBrowserRedirections(string $preferred_langcode, string $path, string $expected) {
     $session = $this->getSession();
     $session->setRequestHeader(HomeRedirectLangInterface::BROWSER_HTTP_HEADER_PREFERRED_LANGCODE, $preferred_langcode);

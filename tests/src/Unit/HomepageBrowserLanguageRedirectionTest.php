@@ -11,6 +11,8 @@ use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection;
 use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +26,9 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  * @group home_redirect_lang
  * @group home_redirect_lang_unit
  */
+#[Group('home_redirect_lang')]
+#[Group('home_redirect_lang_unit')]
+#[CoversClass(HomepageBrowserLanguageRedirection::class)]
 class HomepageBrowserLanguageRedirectionTest extends UnitTestCase {
 
   use ProphecyTrait;
