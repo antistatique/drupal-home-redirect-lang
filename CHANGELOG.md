@@ -12,12 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci: run code styles on PHP 8.4
 
 ### Added
+- add official support of Drupal 12
 - add PHPUnit attributes, keeping the doc-comment annotations for Drupal 10
 - add experimental support of drupal 11.4
 
 ### Fixed
 - fix(cspell): add codesniffer to the project words
-
 
 ## [1.1.5] - 2026-08-25
 ### Changed

@@ -5,6 +5,9 @@
  * Install, update and uninstall fn for the Homepage Redirect Language module.
  */
 
+use Drupal\Core\Extension\Requirement\RequirementSeverity;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
 /**
  * Implements hook_requirements().
  */
@@ -14,8 +17,9 @@ function home_redirect_lang_requirements($phase = 'runtime') {
   if ($phase === 'install') {
     if (\Drupal::moduleHandler()->moduleExists('page_cache')) {
       $requirements['home_redirect_lang'] = [
-        'description' => t('Homepage Redirect Language cannot be installed because the Page Cache module (page_cache) is installed and incompatible.'),
-        'severity' => REQUIREMENT_ERROR,
+        'description' => new TranslatableMarkup('Homepage Redirect Language cannot be installed because the Page Cache module (page_cache) is installed and incompatible.'),
+        // The RequirementSeverity enum is available since Drupal 11.2.
+        'severity' => enum_exists(RequirementSeverity::class) ? RequirementSeverity::Error : REQUIREMENT_ERROR,
       ];
     }
   }
