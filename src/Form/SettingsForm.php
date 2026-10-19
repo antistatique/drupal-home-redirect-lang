@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\home_redirect_lang\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -13,14 +15,14 @@ final class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'home_redirect_lang_admin_settings';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $form = parent::buildForm($form, $form_state);
     $cookie_config = $this->config('home_redirect_lang.cookie');
     $browser_config = $this->config('home_redirect_lang.browser_fallback');
@@ -65,7 +67,7 @@ final class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     parent::submitForm($form, $form_state);
 
     $this->config('home_redirect_lang.cookie')
@@ -81,7 +83,7 @@ final class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return [
       'home_redirect_lang.cookie',
       'home_redirect_lang.browser_fallback',
