@@ -5,12 +5,20 @@
  * Install, update and uninstall fn for the Homepage Redirect Language module.
  */
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Extension\Requirement\RequirementSeverity;
+use Drupal\Core\Hook\Attribute\LegacyRequirementsHook;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Implements hook_requirements().
+ *
+ * Legacy implementation kept for Drupal < 11.3, newer versions rely on
+ * \Drupal\home_redirect_lang\Install\Requirements\HomeRedirectLangRequirements.
+ *
+ * Remove this function when the minimum Drupal version is 11.2.
  */
+#[LegacyRequirementsHook]
 function home_redirect_lang_requirements($phase = 'runtime') {
   $requirements = [];
 
@@ -18,8 +26,7 @@ function home_redirect_lang_requirements($phase = 'runtime') {
     if (\Drupal::moduleHandler()->moduleExists('page_cache')) {
       $requirements['home_redirect_lang'] = [
         'description' => new TranslatableMarkup('Homepage Redirect Language cannot be installed because the Page Cache module (page_cache) is installed and incompatible.'),
-        // The RequirementSeverity enum is available since Drupal 11.2.
-        'severity' => enum_exists(RequirementSeverity::class) ? RequirementSeverity::Error : REQUIREMENT_ERROR,
+        'severity' => DeprecationHelper::backwardsCompatibleCall(\Drupal::VERSION, '11.2.0', fn() => RequirementSeverity::Error, fn() => REQUIREMENT_ERROR),
       ];
     }
   }
