@@ -6,39 +6,26 @@
  */
 
 use Drupal\Core\Block\BlockPluginInterface;
-use Drupal\home_redirect_lang\HomeRedirectLangInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\home_redirect_lang\Hook\LanguageSwitcherBlockViewAlterHook;
+use Drupal\home_redirect_lang\Hook\PreprocessPageHook;
 
 /**
  * Implements hook_preprocess_HOOK().
  *
- * Add both cache context based on cookie and referer for homepage.
+ * Legacy shim for Drupal < 11.1, see PreprocessPageHook.
  */
+#[LegacyHook]
 function home_redirect_lang_preprocess_page(&$variables): void {
-  if (!$variables['is_front']) {
-    return;
-  }
-
-  $variables['#cache']['contexts'][] = 'cookies:' . HomeRedirectLangInterface::COOKIE_PREFERRED_LANGCODE;
-  $variables['#cache']['contexts'][] = 'headers:REFERER';
-
-  $browser_config = \Drupal::configFactory()->get('home_redirect_lang.browser_fallback');
-
-  // When the Fallback on browser language is enabled for the first visit.
-  if ($browser_config->get('enable_browser_fallback')) {
-    $variables['#cache']['contexts'][] = 'headers:' . HomeRedirectLangInterface::BROWSER_HTTP_HEADER_PREFERRED_LANGCODE;
-  }
+  \Drupal::service(PreprocessPageHook::class)($variables);
 }
 
 /**
  * Implements hook_block_view_alter().
  *
- * Inject JavaScript switcher handler of the Homepage Redirect Language module
- * when the drupal language is rendered in any page.
+ * Legacy shim for Drupal < 11.1, see LanguageSwitcherBlockViewAlterHook.
  */
+#[LegacyHook]
 function home_redirect_lang_block_view_alter(array &$build, BlockPluginInterface $block): void {
-  if ($block->getPluginId() !== 'language_block:language_interface') {
-    return;
-  }
-
-  $build['#attached']['library'][] = 'home_redirect_lang/language_switcher';
+  \Drupal::service(LanguageSwitcherBlockViewAlterHook::class)($build, $block);
 }

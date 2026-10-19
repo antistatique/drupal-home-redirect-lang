@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- refactor: convert procedural hooks to invokable OOP hook classes
 - refactor: move the install requirements to an InstallRequirementsInterface class - [#3409372](https://www.drupal.org/project/drupal/issues/3409372)
 - refactor: mark internal classes final and use constructor property promotion
 - ci(phpmd): use the PHPMD 3 analyze command
