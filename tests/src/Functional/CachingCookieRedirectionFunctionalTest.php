@@ -4,6 +4,9 @@ namespace Drupal\Tests\home_redirect_lang\Functional;
 
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
 use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Cover the caching strategy of the Cookie Redirection.
@@ -15,6 +18,10 @@ use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
  * @internal
  * @coversNothing
  */
+#[Group('home_redirect_lang')]
+#[Group('home_redirect_lang_functional')]
+#[Group('home_redirect_lang_cookie_cache')]
+#[RunTestsInSeparateProcesses]
 final class CachingCookieRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertPageCacheContextsAndTagsTrait;
 
@@ -46,6 +53,7 @@ final class CachingCookieRedirectionFunctionalTest extends FunctionalTestBase {
    *
    * @dataProvider providerCachedCookieRedirections
    */
+  #[DataProvider('providerCachedCookieRedirections')]
   public function testCachingCookieRedirections(array $scenarios) {
     foreach ($scenarios as $scenario) {
       [$preferred_langcode, $path, $expected, $cache_contexts, $cache] = $scenario;

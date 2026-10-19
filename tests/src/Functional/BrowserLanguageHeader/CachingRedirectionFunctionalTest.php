@@ -5,6 +5,9 @@ namespace Drupal\Tests\home_redirect_lang\Functional\BrowserLanguageHeader;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
 use Drupal\Tests\home_redirect_lang\Functional\FunctionalTestBase;
 use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Cover the caching strategy of the BrowserHeader Redirection.
@@ -16,6 +19,10 @@ use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
  * @internal
  * @coversNothing
  */
+#[Group('home_redirect_lang')]
+#[Group('home_redirect_lang_functional')]
+#[Group('home_redirect_lang_browser_cache')]
+#[RunTestsInSeparateProcesses]
 final class CachingRedirectionFunctionalTest extends FunctionalTestBase {
   use AssertPageCacheContextsAndTagsTrait;
 
@@ -50,6 +57,7 @@ final class CachingRedirectionFunctionalTest extends FunctionalTestBase {
    *
    * @dataProvider providerCachedBrowserHeaderRedirections
    */
+  #[DataProvider('providerCachedBrowserHeaderRedirections')]
   public function testCachingBrowserHeaderRedirections(array $scenarios) {
     foreach ($scenarios as $scenario) {
       [$preferred_langcode, $path, $expected, $cache_contexts, $cache] = $scenario;

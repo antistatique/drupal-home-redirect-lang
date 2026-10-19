@@ -6,6 +6,8 @@ use Behat\Mink\Exception\ElementNotFoundException;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use WebDriver\Exception\NoSuchCookie;
 use WebDriver\Exception\UnknownError;
 
@@ -21,6 +23,10 @@ use WebDriver\Exception\UnknownError;
  * @internal
  * @coversNothing
  */
+#[Group('home_redirect_lang')]
+#[Group('home_redirect_lang_functional')]
+#[Group('home_redirect_lang_functional_js')]
+#[RunTestsInSeparateProcesses]
 final class LanguageSwitcherHandlerTest extends WebDriverTestBase {
 
   /**
