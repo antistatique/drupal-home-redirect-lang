@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * The redirection will not be fired when the REFERER header has been given.
  * The redirection will only be triggered when landing on homepage.
  */
-class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
+final class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
 
   /**
    * The Cookie Redirection must be triggered after the Browser redirection.
@@ -44,34 +44,15 @@ class HomepageCookieLanguageRedirection implements EventSubscriberInterface {
   protected $request;
 
   /**
-   * Drupal\Core\Routing\CurrentRouteMatch definition.
-   *
-   * @var \Drupal\Core\Path\PathMatcherInterface
-   */
-  protected $pathMatcher;
-
-  /**
-   * Drupal\language\ConfigurableLanguageManagerInterface definition.
-   *
-   * @var \Drupal\language\ConfigurableLanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * Constructs a new LanguageRedirection object.
    */
-  public function __construct(RequestStack $request_stack, PathMatcherInterface $path_matcher, ConfigurableLanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory) {
+  public function __construct(
+    RequestStack $request_stack,
+    private readonly PathMatcherInterface $pathMatcher,
+    private readonly ConfigurableLanguageManagerInterface $languageManager,
+    private readonly ConfigFactoryInterface $configFactory,
+  ) {
     $this->request = $request_stack->getCurrentRequest();
-    $this->pathMatcher = $path_matcher;
-    $this->languageManager = $language_manager;
-    $this->configFactory = $config_factory;
   }
 
   /**
