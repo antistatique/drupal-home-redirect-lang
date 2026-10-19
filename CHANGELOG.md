@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- ci: run code styles on PHP 8.4
+
+
 ## [1.1.5] - 2026-08-25
 ### Changed
 - ci(phpcs): exclude generated gitlab_templates_version.txt
