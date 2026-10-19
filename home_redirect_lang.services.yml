@@ -12,3 +12,12 @@ services:
     arguments: ['@request_stack', '@path.matcher', '@language_manager', '@config.factory']
     tags:
       - { name: event_subscriber }
+
+  # Hooks
+  Drupal\home_redirect_lang\Hook\PreprocessPageHook:
+    class: Drupal\home_redirect_lang\Hook\PreprocessPageHook
+    autowire: true
+
+  Drupal\home_redirect_lang\Hook\LanguageSwitcherBlockViewAlterHook:
+    class: Drupal\home_redirect_lang\Hook\LanguageSwitcherBlockViewAlterHook
+    autowire: true
