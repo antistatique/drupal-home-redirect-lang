@@ -1,15 +1,13 @@
 services:
 
   # EventSubscriber
-  home_redirect_lang.event.language_redirection.cookie:
-    class: Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection
-    arguments: ['@request_stack', '@path.matcher', '@language_manager', '@config.factory']
+  Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection:
+    autowire: true
     tags:
       - { name: event_subscriber }
 
-  home_redirect_lang.event.language_redirection.browser:
-    class: Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection
-    arguments: ['@request_stack', '@path.matcher', '@language_manager', '@config.factory']
+  Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection:
+    autowire: true
     tags:
       - { name: event_subscriber }
 
@@ -21,3 +19,10 @@ services:
   Drupal\home_redirect_lang\Hook\LanguageSwitcherBlockViewAlterHook:
     class: Drupal\home_redirect_lang\Hook\LanguageSwitcherBlockViewAlterHook
     autowire: true
+
+  # Backward compatible service ids.
+  home_redirect_lang.event.language_redirection.cookie:
+    alias: Drupal\home_redirect_lang\EventSubscriber\HomepageCookieLanguageRedirection
+
+  home_redirect_lang.event.language_redirection.browser:
+    alias: Drupal\home_redirect_lang\EventSubscriber\HomepageBrowserLanguageRedirection

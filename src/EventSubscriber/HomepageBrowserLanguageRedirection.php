@@ -8,8 +8,10 @@ use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Url;
 use Drupal\home_redirect_lang\HomeRedirectLangInterface;
 use Drupal\language\ConfigurableLanguageManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -41,11 +43,9 @@ final class HomepageBrowserLanguageRedirection implements EventSubscriberInterfa
   private const PRIORITY = 31;
 
   /**
-   * Symfony\Component\HttpFoundation\RequestStack definition.
-   *
-   * @var \Symfony\Component\HttpFoundation\Request
+   * The current request.
    */
-  protected $request;
+  private readonly ?Request $request;
 
   /**
    * Constructs a new Homepage BrowserLanguageRedirection object.
@@ -53,6 +53,7 @@ final class HomepageBrowserLanguageRedirection implements EventSubscriberInterfa
   public function __construct(
     RequestStack $request_stack,
     private readonly PathMatcherInterface $pathMatcher,
+    #[Autowire(service: 'language_manager')]
     private readonly ConfigurableLanguageManagerInterface $languageManager,
     private readonly ConfigFactoryInterface $configFactory,
   ) {
