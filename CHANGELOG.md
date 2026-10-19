@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.6] - 2026-10-19
 ### Changed
 - refactor: autowire the event subscribers, keeping the previous service ids as aliases
 - refactor: add strict types and return types to the SettingsForm
@@ -112,7 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - handling of missing common JS library
 - remove dependency on JQuery
 
-[Unreleased]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.1.5...HEAD
+[Unreleased]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.1.6...HEAD
+[1.1.6]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.1.5...1.1.6
 [1.1.5]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.1.4...1.1.5
 [1.1.4]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.1.3...1.1.4
 [1.1.3]: https://github.com/antistatique/drupal-home-redirect-lang/compare/1.1.2...1.1.3
