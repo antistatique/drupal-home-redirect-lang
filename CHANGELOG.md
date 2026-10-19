@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- ci(phpmd): use the PHPMD 3 analyze command
 - ci: run code styles on PHP 8.4
 
 ### Added
