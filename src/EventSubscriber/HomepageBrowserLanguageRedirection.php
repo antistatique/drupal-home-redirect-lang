@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * The option "Fallback redirection using visitor browser preferred language"
  * must be enabled.
  */
-class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
+final class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
 
   /**
    * The Browser Redirection must be triggered before the Cookie redirection.
@@ -48,34 +48,15 @@ class HomepageBrowserLanguageRedirection implements EventSubscriberInterface {
   protected $request;
 
   /**
-   * Drupal\Core\Routing\CurrentRouteMatch definition.
-   *
-   * @var \Drupal\Core\Path\PathMatcherInterface
-   */
-  protected $pathMatcher;
-
-  /**
-   * Drupal\language\ConfigurableLanguageManagerInterface definition.
-   *
-   * @var \Drupal\language\ConfigurableLanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * Constructs a new Homepage BrowserLanguageRedirection object.
    */
-  public function __construct(RequestStack $request_stack, PathMatcherInterface $path_matcher, ConfigurableLanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory) {
+  public function __construct(
+    RequestStack $request_stack,
+    private readonly PathMatcherInterface $pathMatcher,
+    private readonly ConfigurableLanguageManagerInterface $languageManager,
+    private readonly ConfigFactoryInterface $configFactory,
+  ) {
     $this->request = $request_stack->getCurrentRequest();
-    $this->pathMatcher = $path_matcher;
-    $this->languageManager = $language_manager;
-    $this->configFactory = $config_factory;
   }
 
   /**

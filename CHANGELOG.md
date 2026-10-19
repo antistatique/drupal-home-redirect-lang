@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- refactor: mark internal classes final and use constructor property promotion
 - ci(phpmd): use the PHPMD 3 analyze command
 - ci: run code styles on PHP 8.4
 
