@@ -5,6 +5,7 @@ behaviours
 Bypassk
 cleancode
 codesize
+codesniffer
 Cyclomatic
 Inernal
 Langcoder
