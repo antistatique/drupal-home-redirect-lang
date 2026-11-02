@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - style(phpcs): fix coding standards reported by drupal/coder 9
+- fix(ci): restore PHP 8.4 for the code styles jobs
 
 ## [1.1.6] - 2026-10-19
 ### Changed
