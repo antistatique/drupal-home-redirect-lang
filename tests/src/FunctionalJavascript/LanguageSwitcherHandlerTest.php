@@ -112,7 +112,8 @@ final class LanguageSwitcherHandlerTest extends WebDriverTestBase {
     }
     catch (NoSuchCookie | UnknownError $e) {
       // getCookie will throw an exception when the cookie is not found.
-    } finally {
+    }
+    finally {
       self::assertNull($cookie_preferred_lang);
     }
 
