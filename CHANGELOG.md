@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - ci: remove PhpDeprecationDetector (phpdd) job, tool and docs
 
+### Fixed
+- style(phpcs): fix coding standards reported by drupal/coder 9
+
 ## [1.1.6] - 2026-10-19
 ### Changed
 - refactor: autowire the event subscribers, keeping the previous service ids as aliases
