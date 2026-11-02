@@ -13,7 +13,6 @@ libbz
 pache
 PHPCPD
 phpcpd
-phpdd
 redirecion
 Redirections
 redirections
@@ -22,5 +21,4 @@ rulesets
 ulimits
 unusedcode
 visite
-wapmorgan
 wengerk
